@@ -135,3 +135,7 @@ $ npm i @tailwindcss/forms
 - revalidate: 3
   - DBが更新された場合、最初のリクエストが前の状態だが、次のリクエストで更新される
   - 3は一度更新すると、３秒間は更新されない
+![](./res/6-1.png)
+
+#### 7.useSWR + ISR + SSG
+![](res/7-1.png)
