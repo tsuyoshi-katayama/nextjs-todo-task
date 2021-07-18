@@ -1,15 +1,24 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-// import Cookie from "universal-cookie";
+import Cookie from "universal-cookie";
 
-// const cookie = new Cookie();
+/** cokkieのインスタンス */
+const cookie = new Cookie();
 
 export default function Auth() {
+
+  /** routerを使用可能にする：関数の中からルーティングできる */
   const router = useRouter();
+
+  /** ユーザ名のローカルstate */
   const [username, setUsername] = useState("");
+  /** パスワードののローカルstate */
   const [password, setPassword] = useState("");
+  
+  /** ログインモードとレジスタモード*/
   const [isLogin, setIsLogin] = useState(true);
 
+  /** ログイン関数 */
   const login = async () => {
     try {
       await fetch(
@@ -22,28 +31,40 @@ export default function Auth() {
           },
         }
       )
-        .then((res) => {
-          if (res.status === 400) {
-            throw "authentication failed";
-          } else if (res.ok) {
-            return res.json();
-          }
-        })
-        .then((data) => {
-          const options = { path: "/" };
-          // cookie.set("access_token", data.access, options);
-        });
+      .then((res) => {
+        if (res.status === 400) {
+          // 認証失敗の場合
+          throw "authentication failed";
+        } else if (res.ok) {
+          // 認証成功の場合
+          return res.json();
+        }
+      })
+      .then((data) => {
+        // accessトークンをcokkieに設定する
+        const options = { path: "/" };
+        cookie.set("access_token", data.access, options);
+      });
+
+      // 認証が成功したらmain-pageに遷移するようにする
       router.push("/main-page");
     } catch (err) {
+      // 何らかの例外の場合にアラートを表示
+      // 例） ログイン失敗：authentication failed
       alert(err);
     }
   };
 
+  /** submitが押された時の処理 */
   const authUser = async (e) => {
+    // ブラウザがリロードされるのを防ぐ
     e.preventDefault();
+
     if (isLogin) {
+      // モードがloginの場合：ログイン処理を行う
       login();
     } else {
+      // モードがregistore=登録の場合：ユーザ登録
       try {
         await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/register/`, {
           method: "POST",
@@ -53,9 +74,10 @@ export default function Auth() {
           },
         }).then((res) => {
           if (res.status === 400) {
-            throw "authentication failed";
+            throw "authentication register failed";
           }
         });
+        // 登録に成功すればそのままログインする
         login();
       } catch (err) {
         alert(err);
@@ -69,30 +91,53 @@ export default function Auth() {
         <img className="mx-auto h-12 w-auto" 
           src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
         <h2 className="mt-6 text-center text-3xl font-extrabold text-white-900">
-          Sign in to your account
+          {isLogin ? "Sign in to your account" : "regist your account"}
         </h2>
       </div>
-      <form className="mt-8 space-y-6" action="#" method="POST">
+      <form className="mt-8 space-y-6" onSubmit={authUser}>
         <input type="hidden" name="remember" value="true" />
         <div className="rounded-md shadow-sm -space-y-px">
           <div>
-            <input id="email-address" name="email" 
-              type="email" autoComplete="email" required 
+            <input 
+              name="username" 
+              type="text" 
+              autoComplete="username" 
+              required 
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Email address" 
+              placeholder="enter user name" 
+              value={username}
+              onChange={(e) => {
+                // usernameステートに結びつける
+                setUsername(e.target.value);
+              }}
             />
           </div>
           <div>
-            <input id="password" name="password" type="password" autoComplete="current-password" required 
+            <input id="password" 
+              ame="password" 
+              type="password" 
+              autoComplete="current-password" 
+              required 
               className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" 
-              placeholder="Password" 
+              placeholder="enter password" 
+              value={password}
+              onChange={(e) => {
+                // passwordステートに結びつける
+                setPassword(e.target.value);
+              }}
             />
           </div>
         </div>
 
         <div className="flex items-center justify-center">
           <div className="text-sm">
-            <span className="cursor-pointer font-medium text-white hover:text-indigo-500">
+            <span 
+              onClick={() => { 
+                // クリックによりモードを反転させる
+                setIsLogin(!isLogin)
+              } }
+              className="cursor-pointer font-medium text-white hover:text-indigo-500"
+            >
               change mode ?
             </span>
           </div>
@@ -110,7 +155,7 @@ export default function Auth() {
                   clipRule="evenodd" />
               </svg>
             </span>
-            Sign in
+            {isLogin ? "Login with JWT" : "Create new user"}
           </button>
         </div>
       </form>

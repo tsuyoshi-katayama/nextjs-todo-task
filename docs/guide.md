@@ -97,3 +97,22 @@ $ npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
 ~~~sh
 $ npm i @tailwindcss/forms
 ~~~
+
+#### 3.Auth component (Function)
+##### 認証コンポーネントに機能を追加
+
+- 環境変数の追加
+  - endpointの設定
+  - ファイル名：.env.local
+    - NEXT_PUBLIC_RESTAPI_URL=https://nextjs-api-tk.herokuapp.com/
+
+- cokieモジュールのインストール
+  ~~~sh
+  $ npm i universal-cookie
+  ~~~
+
+- swrのインストール
+  - データ取得のための React Hooks ライブラリ
+  ~~~sh
+  $ npm i swr
+  ~~~
