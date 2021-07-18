@@ -141,5 +141,10 @@ $ npm i @tailwindcss/forms
 ![](res/7-1.png)
 
 - useSWRによるClient side fetching
+  - [SWR 参考](https://swr.vercel.app/docs/with-nextjs)
   - revalidate: の設定によりPre-fetchの状態とclient sideで取得した内容が変わらないようにする
-    -revalidate: の設定 = Incremental Static Regeneration (ISR)
+    - 備考）revalidate: の設定 = Incremental Static Regeneration (ISR)
+  
+#### 8.Dynamic routes (useSWR + ISR + SSG)
+##### taskの詳細ページ
+- taskの詳細ページにもuseSWRを対応する
