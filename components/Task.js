@@ -1,12 +1,12 @@
 import Link from "next/link";
 import Cookie from "universal-cookie";
 import { useContext } from "react";
-// import { StateContext } from "../context/StateContext";
+import { StateContext } from "../context/StateContext";
 
 const cookie = new Cookie();
 
 export default function Task({ task, taskDeleted }) {
-//   const { setSelectedTask } = useContext(StateContext);
+  const { setSelectedTask } = useContext(StateContext);
   const deleteTask = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_RESTAPI_URL}api/tasks/${task.id}`, {
       method: "DELETE",

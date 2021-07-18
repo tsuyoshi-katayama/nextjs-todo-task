@@ -151,3 +151,10 @@ $ npm i @tailwindcss/forms
 
 #### 9. deleteTask
 ##### taskの削除
+
+#### 10.create and update Task
+##### taskの作成と更新
+
+- globalなstatusを作成
+  - context/StateContext.jsに記載する
+  - compornent間で共有できる
