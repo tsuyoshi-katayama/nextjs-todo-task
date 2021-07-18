@@ -139,3 +139,7 @@ $ npm i @tailwindcss/forms
 
 #### 7.useSWR + ISR + SSG
 ![](res/7-1.png)
+
+- useSWRによるClient side fetching
+  - revalidate: の設定によりPre-fetchの状態とclient sideで取得した内容が変わらないようにする
+    -revalidate: の設定 = Incremental Static Regeneration (ISR)

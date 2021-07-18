@@ -4,12 +4,42 @@ import Link from "next/link";
 import { getAllTasksData } from "../lib/tasks";
 import Task from "../components/Task";
 
+import useSWR from "swr";
+// import StateContextProvider from "../context/StateContext";
+// import TaskForm from "../components/TaskForm";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+const apiUrl = `${process.env.NEXT_PUBLIC_RESTAPI_URL}api/list-task/`;
+
+import { useEffect } from "react";
+
 export default function TaskPage({ staticfilterdTasks }) {
+
+    /**
+     * client side fetching
+     * tasksにclientで取得したtaskの一覧が入っている
+     */
+    const { data: tasks, mutate } = useSWR(apiUrl, fetcher, {
+        initialData: staticfilterdTasks,
+    });
+
+    /**
+     * clientで取得したtask一覧の並び替え
+     */
+    const filteredTasks = tasks?.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
+    /** chacheを確実にrefreshする */
+    useEffect(() => {
+        mutate();
+    }, []);
+
     return (
         <Layout title="Task page">
             <ul>
-                {staticfilterdTasks &&
-                    staticfilterdTasks.map((task) => (
+                {filteredTasks &&
+                    filteredTasks.map((task) => (
                         <Task key={task.id} task={task} />
                     ))
                 }
