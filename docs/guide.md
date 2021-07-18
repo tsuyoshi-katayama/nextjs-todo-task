@@ -120,3 +120,10 @@ $ npm i @tailwindcss/forms
 #### 4.Main page
 - MainPageにリンク作成
 - blogとtaskのページの雛形作成
+
+#### 5.getStaticProps (Blog REST API)
+#####  掲示板一覧を静的に作成
+- project1の時の様子
+  - 外部APIにより一覧を作成
+  ![](./res/5-1.png)
+- project2では作成したdjangoのAPIを利用
