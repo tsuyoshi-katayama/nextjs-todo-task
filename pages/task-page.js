@@ -40,7 +40,7 @@ export default function TaskPage({ staticfilterdTasks }) {
             <ul>
                 {filteredTasks &&
                     filteredTasks.map((task) => (
-                        <Task key={task.id} task={task} />
+                        <Task key={task.id} task={task} taskDeleted={mutate} />
                     ))
                 }
             </ul>

@@ -19,6 +19,8 @@ export default function Task({ task, taskDeleted }) {
         alert("JWT Token not valid");
       }
     });
+
+    // 削除後はrefreshする:mutateが渡されている
     taskDeleted();
   };
 

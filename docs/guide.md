@@ -148,3 +148,6 @@ $ npm i @tailwindcss/forms
 #### 8.Dynamic routes (useSWR + ISR + SSG)
 ##### taskの詳細ページ
 - taskの詳細ページにもuseSWRを対応する
+
+#### 9. deleteTask
+##### taskの削除
