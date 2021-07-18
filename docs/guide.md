@@ -1,5 +1,8 @@
 ### セクション4: Nextjs Project 2 (Blog + Todos編)
 
+#### 全体構成
+![](res/1.png)
+
 #### 1. create-next-app
 ##### 1-1 nextjs 構築
 ```sh
@@ -75,3 +78,11 @@ $ npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
   ~~~HTML
   http://localhost:3000
   ~~~
+
+  ##### 1-4 基本構築
+
+  - Layout作成
+    - componets/Layout.js
+
+  - Auth（ログイン）コンポーネントの作成（事前準備）
+    - componets/Auth.js
