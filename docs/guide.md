@@ -116,3 +116,7 @@ $ npm i @tailwindcss/forms
   ~~~sh
   $ npm i swr
   ~~~
+
+#### 4.Main page
+- MainPageにリンク作成
+- blogとtaskのページの雛形作成
