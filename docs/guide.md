@@ -127,3 +127,11 @@ $ npm i @tailwindcss/forms
   - 外部APIにより一覧を作成
   ![](./res/5-1.png)
 - project2では作成したdjangoのAPIを利用
+
+#### 6.Incremental Static Regeneration (ISR)
+##### 掲示板の詳細ページの作成
+- getStaticPathsにてfallback=trueにする
+  - 範囲を超えたIDは都度取得してくれる
+- revalidate: 3
+  - DBが更新された場合、最初のリクエストが前の状態だが、次のリクエストで更新される
+  - 3は一度更新すると、３秒間は更新されない
