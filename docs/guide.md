@@ -86,3 +86,14 @@ $ npm install -D tailwindcss@latest postcss@latest autoprefixer@latest
 
   - Auth（ログイン）コンポーネントの作成（事前準備）
     - componets/Auth.js
+
+#### 2.Auth component UI
+##### 認証コンポーネントのUI部分の作成
+- 参照URL:tailwindのサンプル
+[Sign-in and Registration](https://tailwindui.com/components/application-ui/forms/sign-in-forms)
+
+- 必要モジュールのinstall
+
+~~~sh
+$ npm i @tailwindcss/forms
+~~~
