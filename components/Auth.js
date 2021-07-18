@@ -15,8 +15,11 @@ export default function Auth() {
   /** パスワードののローカルstate */
   const [password, setPassword] = useState("");
   
-  /** ログインモードとレジスタモード*/
+  /** モード：ログイン or レジスタ*/
   const [isLogin, setIsLogin] = useState(true);
+
+  /** apiレスポンス待ち　*/
+  const [isResponced, setIsResponced] = useState(false);
 
   /** ログイン関数 */
   const login = async () => {
@@ -35,7 +38,12 @@ export default function Auth() {
         if (res.status === 400) {
           // 認証失敗の場合
           throw "authentication failed";
-        } else if (res.ok) {
+        }
+        else if (res.status === 401) {
+          // 認証失敗の場合
+          throw "ユーザ名またはパスワードが違っています";
+        } 
+        else if (res.ok) {
           // 認証成功の場合
           return res.json();
         }
@@ -60,6 +68,9 @@ export default function Auth() {
     // ブラウザがリロードされるのを防ぐ
     e.preventDefault();
 
+    // submitボタンを押せなくする
+    setIsResponced(true);
+
     if (isLogin) {
       // モードがloginの場合：ログイン処理を行う
       login();
@@ -74,7 +85,7 @@ export default function Auth() {
           },
         }).then((res) => {
           if (res.status === 400) {
-            throw "authentication register failed";
+            throw `authentication register failed \n reason => ${res.statusText}`;
           }
         });
         // 登録に成功すればそのままログインする
@@ -83,6 +94,9 @@ export default function Auth() {
         alert(err);
       }
     }
+
+    // submitボタンを押せるようにする
+    setIsResponced(false);
   };
 
   return (
@@ -145,7 +159,8 @@ export default function Auth() {
 
         <div>
           <button type="submit"
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            disabled={isResponced}
+            className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isResponced? " bg-gray-300" : " bg-indigo-600"}'
           >
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
               { /*<!-- Heroicon name: solid/lock-closed --> */ }
